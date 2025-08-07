@@ -11,16 +11,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize audio service and request permissions early
-  // final AudioService audioService = AudioService();
   await AudioService.instance.requestPermissions();
-  // await audioService.requestPermissions();
 
-  // Initialize notification permissions
   final FlutterLocalNotificationsPlugin notifications =
       FlutterLocalNotificationsPlugin();
 
-  // Request notification permissions on iOS
   await notifications
       .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin>()
@@ -31,17 +26,15 @@ void main() async {
         critical: true,
       );
 
-  // Request notification permissions on Android
   await notifications
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.requestExactAlarmsPermission();
 
   try {
-    // Initialize Workmanager
     await Workmanager().initialize(
       callbackDispatcher,
-      isInDebugMode: true, // Set to false for production
+      isInDebugMode: true, 
     );
 
     debugPrint("✅ Workmanager initialized successfully");
